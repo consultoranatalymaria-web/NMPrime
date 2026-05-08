@@ -14,13 +14,28 @@
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN || true,
-      credentials: false,
+      credentials: true,
     })
   );
   app.use(express.json({ limit: "1mb" }));
   app.use("/uploads", uploadsStaticMiddleware());
 
   const db = openDb(process.env.DB_PATH);
+  // Este bloco cria o seu usuário administrador automaticamente
+const criarAdminSeNaoExistir = async () => {
+  try {
+    const admin = db.prepare("SELECT * FROM users WHERE role='admin'").get();
+    if (!admin) {
+      const hash = await hashPassword("Admin12345"); // Sua senha padrão
+      db.prepare("INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)")
+        .run("admin@imobiliaria.com", hash, "admin");
+      console.log("✅ Usuário admin criado no servidor!");
+    }
+  } catch (err) {
+    console.error("Erro ao criar admin:", err);
+  }
+};
+criarAdminSeNaoExistir();
   const jwtSecret = process.env.JWT_SECRET;
 
   if (!jwtSecret) {
@@ -131,7 +146,7 @@
       if (err) return res.status(400).json({ error: err.message || "Falha no upload." });
       if (!req.file) return res.status(400).json({ error: "Envie uma imagem no campo file." });
 
-      const port = process.env.PORT || 5179;
+      const port = process.env.PORT || 5174;
       const base =
         process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") || `http://localhost:${port}`;
       const url = `${base}/uploads/${req.file.filename}`;
@@ -252,10 +267,8 @@
     if (info.changes === 0) return res.status(404).json({ error: "Imóvel não encontrado." });
     res.json({ ok: true });
   });
-
-  const port = process.env.PORT || 5174;
-  // O Render define a porta automaticamente, por isso usamos process.env.PORT
-const PORT = process.env.PORT || 3000;
+// Remove as linhas repetidas e deixe apenas este bloco:
+const PORT = process.env.PORT || 5174; 
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando na porta ${PORT}`);
