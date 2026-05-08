@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5174";
+const API_BASE = "https://nmprime-api.onrender.com";
 
 export async function apiGet(path, token) {
   const res = await fetch(API_BASE + path, {
