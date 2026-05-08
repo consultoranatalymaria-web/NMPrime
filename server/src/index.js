@@ -254,6 +254,9 @@
   });
 
   const port = process.env.PORT || 5174;
-  app.listen(port, () => {
-    console.log(`API rodando em http://localhost:${port}`);
-  });
+  // O Render define a porta automaticamente, por isso usamos process.env.PORT
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
