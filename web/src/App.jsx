@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+
 import PublicCatalog from "./pages/PublicCatalog.jsx";
 import Login from "./pages/Login.jsx";
 import Admin from "./pages/Admin.jsx";
+
 import { clearToken, getToken } from "./authStore.js";
 
 export default function App() {
@@ -41,6 +44,7 @@ export default function App() {
 
           <div>
             <div className="brandTitle">{agencyName}</div>
+
             <div className="brandSub">
               Consultoria Imobiliária
             </div>
@@ -109,7 +113,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* BOTÃO DO WHATSAPP FLUTUANTE */}
+      {/* BOTÃO FLUTUANTE WHATSAPP */}
       <a
         href="https://wa.me/5515998090876?text=Vi%20o%20site%20da%20NM%20Prime%20e%20gostaria%20de%20mais%20informações."
         target="_blank"
@@ -129,11 +133,17 @@ export default function App() {
           boxShadow: "2px 2px 10px rgba(0,0,0,0.3)",
           zIndex: 9999,
           textDecoration: "none",
-          fontSize: "28px",
-          fontWeight: "bold",
+          fontSize: "32px",
+          transition: "0.3s",
         }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.transform = "scale(1.1)")
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.transform = "scale(1)")
+        }
       >
-        WhatsApp
+        <FaWhatsapp />
       </a>
     </div>
   );
