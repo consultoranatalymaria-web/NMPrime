@@ -1,35 +1,43 @@
 import React from "react";
 
 export default function PropertyCard({ p, onClick }) {
-const photos =
-  typeof p.photos === "string"
-    ? JSON.parse(p.photos || "[]")
-    : p.photos;
+  // normaliza photos (pode vir string ou array)
+  let photos = [];
 
-let cover = null;
-
-if (Array.isArray(p.photos) && p.photos.length > 0) {
-  cover = p.photos[0];
-} else if (typeof p.photos === "string") {
-  try {
-    const parsed = JSON.parse(p.photos);
-    cover = parsed?.[0];
-  } catch (e) {
-    cover = null;
+  if (typeof p.photos === "string") {
+    try {
+      photos = JSON.parse(p.photos || "[]");
+    } catch (e) {
+      photos = [];
+    }
+  } else if (Array.isArray(p.photos)) {
+    photos = p.photos;
   }
-}
 
-cover = cover || p.imageUrl;
+  // imagem principal
+  const cover = photos[0] || p.imageUrl || "";
+
   return (
     <button type="button" className="card" onClick={onClick}>
-      <img className="thumb" src={cover} alt={p.title} />
+      <img
+        className="thumb"
+        src={cover}
+        alt={p.title}
+        loading="lazy"
+      />
+
       <div className="cardBody">
         <div className="strong">{p.title}</div>
+
         <div className="muted">
           {p.neighborhood}, {p.city} - {p.state}
         </div>
+
         <div className="row">
-          <div className="badge">{p.status === "for-sale" ? "Venda" : "Aluguel"}</div>
+          <div className="badge">
+            {p.status === "for-sale" ? "Venda" : "Aluguel"}
+          </div>
+
           <div className="price">
             R$ {new Intl.NumberFormat("pt-BR").format(p.price)}
             {p.status === "for-rent" ? " /mês" : ""}
