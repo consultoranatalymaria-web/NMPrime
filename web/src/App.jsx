@@ -5,39 +5,61 @@ import Admin from "./pages/Admin.jsx";
 import { clearToken, getToken } from "./authStore.js";
 
 export default function App() {
-  const [route, setRoute] = useState(() => window.location.hash || "#/catalogo");
+  const [route, setRoute] = useState(
+    () => window.location.hash || "#/catalogo"
+  );
+
   const [token, setTokenState] = useState(() => getToken());
 
   useEffect(() => {
-    const onHash = () => setRoute(window.location.hash || "#/catalogo");
+    const onHash = () =>
+      setRoute(window.location.hash || "#/catalogo");
+
     window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
+
+    return () =>
+      window.removeEventListener("hashchange", onHash);
   }, []);
 
   const isAuthed = Boolean(token);
-  const agencyName = "NM Prime"; 
+  const agencyName = "NM Prime";
 
   return (
     <div className="shell">
       <header className="topbar">
         <div className="brand">
-          <img 
-            src="/logo-imobiliaria.jpeg" 
-            alt={agencyName} 
-            style={{ height: '40px', width: 'auto', marginRight: '10px' }} 
-            onError={(e) => e.target.style.display = 'none'}
+          <img
+            src="/logo-imobiliaria.jpeg"
+            alt={agencyName}
+            style={{
+              height: "40px",
+              width: "auto",
+              marginRight: "10px",
+            }}
+            onError={(e) => (e.target.style.display = "none")}
           />
+
           <div>
             <div className="brandTitle">{agencyName}</div>
-            <div className="brandSub">Consultoria Imobiliária</div>
+            <div className="brandSub">
+              Consultoria Imobiliária
+            </div>
           </div>
         </div>
 
         <nav className="nav">
-          <a className="navLink" href="#/catalogo">Catálogo</a>
-          <a className="navLink" href="#/admin">CRM</a>
+          <a className="navLink" href="#/catalogo">
+            Catálogo
+          </a>
+
+          <a className="navLink" href="#/admin">
+            CRM
+          </a>
+
           {!isAuthed ? (
-            <a className="navLink btnLink" href="#/login">Entrar</a>
+            <a className="navLink btnLink" href="#/login">
+              Entrar
+            </a>
           ) : (
             <button
               type="button"
@@ -63,43 +85,55 @@ export default function App() {
             }}
           />
         )}
+
         {route === "#/admin" && (
-          <Admin token={token} onRequireLogin={() => (window.location.hash = "#/login")} />
+          <Admin
+            token={token}
+            onRequireLogin={() =>
+              (window.location.hash = "#/login")
+            }
+          />
         )}
-        {route !== "#/login" && route !== "#/admin" && <PublicCatalog />}
+
+        {route !== "#/login" &&
+          route !== "#/admin" && <PublicCatalog />}
       </main>
 
       <footer className="siteFooter">
         <div className="siteFooterInner">
           <span>{agencyName}</span>
-          <span className="siteFooterMuted">© 2024 · Todos os direitos reservados</span>
+
+          <span className="siteFooterMuted">
+            © 2024 · Todos os direitos reservados
+          </span>
         </div>
       </footer>
 
       {/* BOTÃO DO WHATSAPP FLUTUANTE */}
       <a
-        href="https://wa.me!5515998090876 Vi o site da NM Prime e gostaria de mais informações." 
+        href="https://wa.me/5515998090876?text=Vi%20o%20site%20da%20NM%20Prime%20e%20gostaria%20de%20mais%20informações."
         target="_blank"
         rel="noopener noreferrer"
         style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          backgroundColor: '#25d366',
-          color: 'white',
-          borderRadius: '50%',
-          width: '60px',
-          height: '60px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '30px',
-          boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
-          zIndex: 1000,
-          textDecoration: 'none'
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          backgroundColor: "#25d366",
+          color: "white",
+          borderRadius: "50%",
+          width: "60px",
+          height: "60px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "2px 2px 10px rgba(0,0,0,0.3)",
+          zIndex: 9999,
+          textDecoration: "none",
+          fontSize: "28px",
+          fontWeight: "bold",
         }}
       >
-        <span role="img" aria-label="whatsapp">💬</span>
+        WhatsApp
       </a>
     </div>
   );
