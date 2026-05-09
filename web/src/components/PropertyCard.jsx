@@ -6,9 +6,20 @@ const photos =
     ? JSON.parse(p.photos || "[]")
     : p.photos;
 
-const cover =
-  (photos && photos.length > 0 ? photos[0] : null) ||
-  p.imageUrl;
+let cover = null;
+
+if (Array.isArray(p.photos) && p.photos.length > 0) {
+  cover = p.photos[0];
+} else if (typeof p.photos === "string") {
+  try {
+    const parsed = JSON.parse(p.photos);
+    cover = parsed?.[0];
+  } catch (e) {
+    cover = null;
+  }
+}
+
+cover = cover || p.imageUrl;
   return (
     <button type="button" className="card" onClick={onClick}>
       <img className="thumb" src={cover} alt={p.title} />
