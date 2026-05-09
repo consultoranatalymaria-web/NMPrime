@@ -18,7 +18,9 @@ app.use(
   })
 );
 app.use(express.json({ limit: "1mb" }));
-app.use("/uploads", uploadsStaticMiddleware());
+import path from "path";
+
+app.use("/uploads", express.static(path.resolve("uploads")));
 
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
