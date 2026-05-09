@@ -148,7 +148,7 @@ criarAdminSeNaoExistir();
 
       const port = process.env.PORT || 5174;
       const base =
-        process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") || `http://localhost:${port}`;
+        process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") || `https://nmprime-api.onrender.com`;
       const url = `${base}/uploads/${req.file.filename}`;
       res.json({ url });
     });
