@@ -87,7 +87,7 @@ app.get("/properties", async (req, res) => {
 });
 
 // Cadastro de Imóvel
-app.post("/admin/properties", requireAuth(jwtSecret), requireAdmin, async (req, res) => {
+app.post("/properties", requireAuth(jwtSecret), requireAdmin, async (req, res) => {
   const p = req.body;
   const photoJson = JSON.stringify(p.photos);
   const sql = `
