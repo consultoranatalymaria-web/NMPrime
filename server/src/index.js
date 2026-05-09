@@ -1,15 +1,11 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import path from "path";
-
+import { supabase } from "./supabase.js";
 import { db } from "./db.js";
 import { signToken, verifyPassword, hashPassword } from "./auth.js";
 import { requireAdmin, requireAuth } from "./middleware.js";
 import { shapeProperty } from "./propertyMapper.js";
-import { ensureUploadDir, upload } from "./uploads.js";
-
-ensureUploadDir();
 
 const app = express();
 
@@ -24,9 +20,6 @@ app.use(
 );
 
 app.use(express.json({ limit: "1mb" }));
-
-// 🔥 SERVE UPLOADS CORRETAMENTE (ESSENCIAL)
-app.use("/uploads", express.static(path.resolve("uploads")));
 
 /* =========================
    ENV CHECK
@@ -255,25 +248,36 @@ app.delete("/properties/:id", async (req, res) => {
 });
 
 /* =========================
-   UPLOAD IMAGE
+   UPLOAD (SUPABASE STORAGE)
 ========================= */
 app.post(
   "/admin/upload",
   requireAuth(jwtSecret),
   requireAdmin,
   (req, res) => {
-    upload.single("file")(req, res, (err) => {
+    upload.single("file")(req, res, async (err) => {
       if (err) {
         return res.status(400).json({ error: "Falha no upload." });
       }
 
-      const base =
-        process.env.PUBLIC_ORIGIN ||
-        "https://nmprime-api.onrender.com";
+      const file = req.file;
+      const filePath = `${Date.now()}-${file.originalname}`;
 
-      const url = `${base}/uploads/${req.file.filename}`;
+      const { error } = await supabase.storage
+        .from("properties")
+        .upload(filePath, file.buffer, {
+          contentType: file.mimetype,
+        });
 
-      res.json({ url });
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      const { data } = supabase.storage
+        .from("properties")
+        .getPublicUrl(filePath);
+
+      res.json({ url: data.publicUrl });
     });
   }
 );
