@@ -78,7 +78,7 @@ export default function App() {
 
       {/* BOTÃO DO WHATSAPP FLUTUANTE */}
       <a
-        href="https://wa.me! Vi o site da NM Prime e gostaria de mais informações." 
+        href="https://wa.me!5515998090876 Vi o site da NM Prime e gostaria de mais informações." 
         target="_blank"
         rel="noopener noreferrer"
         style={{
