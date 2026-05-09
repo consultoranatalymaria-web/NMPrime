@@ -15,20 +15,17 @@ export default function App() {
   }, []);
 
   const isAuthed = Boolean(token);
-
-  // Nome da sua imobiliária para mudar em um só lugar
   const agencyName = "NM Prime"; 
 
   return (
     <div className="shell">
       <header className="topbar">
         <div className="brand">
-          {/* AQUI ESTÁ A LOGO: Ela busca o arquivo logo-imobiliaria.jpeg na pasta public */}
           <img 
             src="/logo-imobiliaria.jpeg" 
             alt={agencyName} 
             style={{ height: '40px', width: 'auto', marginRight: '10px' }} 
-            onError={(e) => e.target.style.display = 'none'} // Esconde se a imagem não existir
+            onError={(e) => e.target.style.display = 'none'}
           />
           <div>
             <div className="brandTitle">{agencyName}</div>
@@ -37,16 +34,10 @@ export default function App() {
         </div>
 
         <nav className="nav">
-          <a className="navLink" href="#/catalogo">
-            Catálogo
-          </a>
-          <a className="navLink" href="#/admin">
-            CRM
-          </a>
+          <a className="navLink" href="#/catalogo">Catálogo</a>
+          <a className="navLink" href="#/admin">CRM</a>
           {!isAuthed ? (
-            <a className="navLink btnLink" href="#/login">
-              Entrar
-            </a>
+            <a className="navLink btnLink" href="#/login">Entrar</a>
           ) : (
             <button
               type="button"
@@ -84,6 +75,32 @@ export default function App() {
           <span className="siteFooterMuted">© 2024 · Todos os direitos reservados</span>
         </div>
       </footer>
+
+      {/* BOTÃO DO WHATSAPP FLUTUANTE */}
+      <a
+        href="https://wa.me! Vi o site da NM Prime e gostaria de mais informações." 
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          backgroundColor: '#25d366',
+          color: 'white',
+          borderRadius: '50%',
+          width: '60px',
+          height: '60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '30px',
+          boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
+          zIndex: 1000,
+          textDecoration: 'none'
+        }}
+      >
+        <span role="img" aria-label="whatsapp">💬</span>
+      </a>
     </div>
   );
 }
