@@ -40,9 +40,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid var(--ink);
-  background: var(--bg);
+  /* Aumentei o padding de 10px para 25px para a barra ficar maior */
+  padding: 25px 40px; 
+  background: #000000; /* Fundo preto */
+  border-bottom: 1px solid var(--gold); /* Linha dourada opcional para luxo */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .brand {
@@ -66,35 +68,31 @@ body {
 }
 .brandTitle {
   font-weight: 800;
-  color: var(--ink);
+  font-size: 1.6rem; /* Aumentei o tamanho da letra do nome */
+  color: #ffffff;    /* Letra branca */
   letter-spacing: -0.02em;
 }
+
 .brandSub {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 14px;
+  color: #cccccc; /* Cinza claro para o sub-título */
   margin-top: 2px;
 }
 
-.nav {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
 .navLink {
-  color: var(--ink);
+  color: #ffffff; /* Letras dos menus em branco */
   text-decoration: none;
-  padding: 8px 12px;
+  padding: 8px 15px;
   border-radius: 10px;
-  border: 1px solid transparent;
-  background: transparent;
-  cursor: pointer;
-  font: inherit;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px; /* Aumentei um pouco o menu */
+  transition: all 0.3s;
 }
+
 .navLink:hover {
-  color: var(--gold-deep);
+  color: var(--gold); /* Fica dourado ao passar o mouse */
 }
+
 .btnLink {
   border-color: var(--line);
   background: var(--panel);
@@ -114,13 +112,12 @@ body {
 
 /* Rodapé fino — mesmo preto do topo */
 .siteFooter {
-  padding: 12px 20px;
-  border-top: 1px solid var(--ink);
-  background: var(--bg);
-  font-size: 12px;
+  padding: 30px 20px; /* Aumentei o rodapé também */
+  background: #000000; /* Rodapé preto */
+  border-top: 1px solid var(--gold);
+  font-size: 14px;
   font-weight: 600;
-  color: var(--ink);
-  letter-spacing: 0.02em;
+  color: #ffffff; /* Letra branca */
 }
 .siteFooterInner {
   max-width: 1120px;
@@ -133,7 +130,7 @@ body {
 }
 .siteFooterMuted {
   font-weight: 500;
-  color: var(--muted);
+  color: #cccccc; /* Cinza claro */
 }
 
 .panel {
