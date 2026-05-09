@@ -492,4 +492,12 @@ textarea.input {
   .thumbGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}.navLink.btnLink {
+  background-color: #ffffff !important; /* Fundo branco para destacar no preto */
+  color: #000000 !important;           /* Letra preta como você pediu */
+  border: none;
+  padding: 10px 20px;                  /* Aumenta um pouco o botão */
+}.navLink.btnLink:hover {
+  background-color: var(--gold) !important; /* Fica dourado ao passar o mouse */
+  color: #000000 !important;
 }
