@@ -1,21 +1,7 @@
 import React from "react";
 
 export default function PropertyCard({ p, onClick }) {
-  // normaliza photos (pode vir string ou array)
-  let photos = [];
-
-  if (typeof p.photos === "string") {
-    try {
-      photos = JSON.parse(p.photos || "[]");
-    } catch (e) {
-      photos = [];
-    }
-  } else if (Array.isArray(p.photos)) {
-    photos = p.photos;
-  }
-
-  // imagem principal
-  const cover = photos[0] || p.imageUrl || "";
+  const cover = p.imageUrl;
 
   return (
     <button type="button" className="card" onClick={onClick}>
@@ -24,6 +10,9 @@ export default function PropertyCard({ p, onClick }) {
         src={cover}
         alt={p.title}
         loading="lazy"
+        onError={(e) => {
+          e.target.style.display = "none";
+        }}
       />
 
       <div className="cardBody">
