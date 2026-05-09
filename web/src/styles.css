@@ -501,3 +501,31 @@ textarea.input {
   background-color: var(--gold) !important; /* Fica dourado ao passar o mouse */
   color: #000000 !important;
 }
+/* AJUSTE PARA CELULAR (Telas menores que 768px) */
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column; /* Empilha a logo e o menu */
+    padding: 15px 10px !important;
+    gap: 15px; /* Dá um respiro entre a logo e os botões */
+    height: auto !important;
+  }
+
+  header img {
+    height: 50px !important; /* Diminui um pouco a logo no celular */
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: center; /* Centraliza os botões no celular */
+    gap: 5px;
+  }
+
+  .navLink {
+    font-size: 13px !important; /* Letras levemente menores no celular */
+    padding: 6px 8px !important;
+  }
+
+  .navLink.btnLink {
+    padding: 8px 12px !important;
+  }
+}
