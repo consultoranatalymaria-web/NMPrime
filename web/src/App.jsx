@@ -31,15 +31,13 @@ export default function App() {
     <div className="shell">
       <header className="topbar">
         <div className="brand">
-          <img
-            src="/logo-imobiliaria.jpeg"
-            alt={agencyName}
-            style={{
-              height: "40px",
-              width: "auto",
-              marginRight: "10px",
-            }}
-            onError={(e) => (e.target.style.display = "none")}
+        <img 
+  src="/logo-imobiliaria.jpeg" 
+  alt={agencyName} 
+  /* Aumentei de 40px para 70px */
+  style={{ height: '70px', width: 'auto', marginRight: '15px' }} 
+  onError={(e) => e.target.style.display = 'none'} 
+
           />
 
           <div>
