@@ -113,7 +113,7 @@ app.post("/properties", requireAuth(jwtSecret), requireAdmin, async (req, res) =
 app.post("/admin/upload", requireAuth(jwtSecret), requireAdmin, (req, res) => {
   upload.single("file")(req, res, (err) => {
     if (err) return res.status(400).json({ error: "Falha no upload." });
-    const base = process.env.PUBLIC_ORIGIN || "https://nmprime-api.onrender.com";
+    const base = process.env.PUBLIC_ORIGIN || "http://nmprime-api.onrender.com";
     const url = `${base}/uploads/${req.file.filename}`;
     res.json({ url });
   });
