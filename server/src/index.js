@@ -123,3 +123,67 @@ const PORT = process.env.PORT || 5174;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
+app.put("/properties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const p = req.body;
+
+    const sql = `
+      UPDATE properties SET
+        title = $1,
+        description = $2,
+        country = 'BR',
+        state = $3,
+        city = $4,
+        neighborhood = $5,
+        status = $6,
+        type = $7,
+        price = $8,
+        beds = $9,
+        baths = $10,
+        area_sqm = $11,
+        image_url = $12,
+        photos = $13,
+        featured = $14,
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = $15
+    `;
+
+    const values = [
+      p.title,
+      p.description,
+      p.state,
+      p.city,
+      p.neighborhood,
+      p.status,
+      p.type,
+      p.price,
+      p.beds,
+      p.baths,
+      p.areaSqm,
+      p.photos?.[0],
+      JSON.stringify(p.photos),
+      p.featured,
+      Number(id)
+    ];
+
+    await db.query(sql, values);
+
+    res.json({ message: "Atualizado com sucesso" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});app.delete("/properties/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await db.query(
+      "DELETE FROM properties WHERE id = $1",
+      [Number(id)]
+    );
+
+    res.json({ message: "Removido com sucesso" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
