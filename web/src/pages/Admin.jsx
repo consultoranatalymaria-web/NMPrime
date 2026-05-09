@@ -14,7 +14,7 @@ export default function Admin({ token, onRequireLogin }) {
     setLoading(true);
     try {
       if (!token) return onRequireLogin();
-      const data = await apiGet("/admin/properties", token);
+      const data = await apiGet("/properties", token);
       setItems(data);
     } catch (e) {
       if (String(e.message || "").toLowerCase().includes("token")) onRequireLogin();
@@ -39,7 +39,7 @@ export default function Admin({ token, onRequireLogin }) {
   async function remove(id) {
     if (!confirm("Excluir este imóvel?")) return;
     try {
-      await apiSend("DELETE", `/admin/properties/${id}`, null, token);
+      await apiSend("DELETE", `/properties/${id}`, null, token);
       await load();
     } catch (e) {
       alert(e.message || "Erro ao excluir");
@@ -135,9 +135,9 @@ export default function Admin({ token, onRequireLogin }) {
               onSubmit={async (payload) => {
                 try {
                   if (creating) {
-                    await apiSend("POST", "/admin/properties", payload, token);
+                    await apiSend("POST", "/properties", payload, token);
                   } else {
-                    await apiSend("PUT", `/admin/properties/${editing.id}`, payload, token);
+                    await apiSend("PUT", `/properties/${editing.id}`, payload, token);
                   }
                   setCreating(false);
                   setEditing(null);
