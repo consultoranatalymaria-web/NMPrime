@@ -1,7 +1,9 @@
 import React from "react";
 
 export default function PropertyCard({ p, onClick }) {
-  const cover = Array.isArray(p.photos) && p.photos.length > 0 ? p.photos[0] : p.imageUrl;
+  const cover =
+  (Array.isArray(p.photos) ? p.photos[0] : null) ||
+  p.image_url;
   return (
     <button type="button" className="card" onClick={onClick}>
       <img className="thumb" src={cover} alt={p.title} loading="lazy" />
