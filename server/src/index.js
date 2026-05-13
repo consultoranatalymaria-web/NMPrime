@@ -9,7 +9,6 @@ import multer from "multer"; // <-- ADICIONE ESTA LINHA
 import { supabase } from "./supabase.js";
 
 const app = express();
-const app = express();
 
 // Configuração do Multer para ler as imagens na memória antes de mandar ao Supabase
 const upload = multer({ storage: multer.memoryStorage() }); // <-- ADICIONE ESTA LINHA
