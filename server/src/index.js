@@ -6,8 +6,15 @@ import { db } from "./db.js";
 import { signToken, verifyPassword, hashPassword } from "./auth.js";
 import { requireAdmin, requireAuth } from "./middleware.js";
 import { shapeProperty } from "./propertyMapper.js";
+import cors from "cors";
+import multer from "multer"; // <-- ADICIONE ESTA LINHA
+import { supabase } from "./supabase.js";
 
 const app = express();
+const app = express();
+
+// Configuração do Multer para ler as imagens na memória antes de mandar ao Supabase
+const upload = multer({ storage: multer.memoryStorage() }); // <-- ADICIONE ESTA LINHA
 
 /* =========================
    MIDDLEWARES
@@ -66,48 +73,44 @@ app.get("/health", (req, res) => {
 /* =========================
    LOGIN
 ========================= */
-app.post("/auth/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const result = await db.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
-    );
-
-    const user = result.rows[0];
-
-    if (!user) {
-      return res.status(401).json({ error: "Credenciais inválidas." });
-    }
-
-    const ok = await verifyPassword(password, user.password_hash);
-
-    if (!ok) {
-      return res.status(401).json({ error: "Credenciais inválidas." });
-    }
-
-    const token = signToken(
-      {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-      },
-      jwtSecret
-    );
-
-    res.json({
-      token,
-      user: { email: user.email, role: user.role },
-    });
-  } catch (err) {
-    res.status(500).json({ error: "Erro no servidor" });
-  }
-});
-
 /* =========================
-   LIST PROPERTIES
+   UPLOAD (SUPABASE STORAGE)
 ========================= */
+app.post(
+  "/admin/upload",
+  requireAuth(jwtSecret),
+  requireAdmin,
+  upload.single("file"), // <-- Mudamos a sintaxe aqui para ficar mais limpa e segura
+  async (req, res) => {
+    try {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).json({ error: "Nenhum arquivo enviado." });
+      }
+
+      const filePath = `${Date.now()}-${file.originalname}`;
+
+      const { error } = await supabase.storage
+        .from("properties")
+        .upload(filePath, file.buffer, {
+          contentType: file.mimetype,
+        });
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      const { data } = supabase.storage
+        .from("properties")
+        .getPublicUrl(filePath);
+
+      return res.json({ url: data.publicUrl });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+);
+
 app.get("/properties", async (req, res) => {
   try {
     const { q } = req.query;
