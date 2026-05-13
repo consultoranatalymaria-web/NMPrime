@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { supabase } from "./supabase.js";
 import { db } from "./db.js";
 import { signToken, verifyPassword, hashPassword } from "./auth.js";
 import { requireAdmin, requireAuth } from "./middleware.js";
