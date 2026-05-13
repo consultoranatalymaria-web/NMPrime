@@ -6,7 +6,6 @@ import { db } from "./db.js";
 import { signToken, verifyPassword, hashPassword } from "./auth.js";
 import { requireAdmin, requireAuth } from "./middleware.js";
 import { shapeProperty } from "./propertyMapper.js";
-import cors from "cors";
 import multer from "multer"; // <-- ADICIONE ESTA LINHA
 import { supabase } from "./supabase.js";
 
