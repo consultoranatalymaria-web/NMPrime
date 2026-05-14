@@ -70,6 +70,39 @@ app.get("/health", (req, res) => {
 /* =========================
    LOGIN
 ========================= */
+app.post("/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "E-mail e senha são obrigatórios." });
+    }
+
+    // Busca o usuário administrador no Supabase
+    const result = await db.query("SELECT * FROM users WHERE email = $1 LIMIT 1", [email]);
+    const user = result.rows[0]; // <-- Corrigido aqui para pegar a primeira linha
+
+    if (!user) {
+      return res.status(401).json({ error: "Credenciais inválidas." });
+    }
+
+    // Verifica se a senha está correta
+    const validPassword = await verifyPassword(password, user.password_hash);
+    if (!validPassword) {
+      return res.status(401).json({ error: "Credenciais inválidas." });
+    }
+
+    // Gera o Token JWT se tudo estiver certo
+    const token = signToken({ id: user.id, email: user.email, role: user.role }, jwtSecret);
+
+    return res.json({
+      token,
+      user: { id: user.id, email: user.email, role: user.role }
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 /* =========================
    UPLOAD (SUPABASE STORAGE)
 ========================= */
